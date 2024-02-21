@@ -1,14 +1,18 @@
 import { Assignment } from "../Assignment";
 import styles from "./assignments.module.css";
+import {useState} from 'react'
 type Props = {
   assignments:string[],
   remove:(arg0:number)=>void
 }
 export function Assignments({assignments,remove}:Props) {
-  let completed = 0;
+  const [completed, setCompleted] = useState(0);
   let count = 0;
+  function addCompleted(num:number){
+    setCompleted(completed + num );
+  }
   const assignmentList = assignments.map(assignment=>
-  <Assignment key={count++} title={assignment} remove={remove} index={count}/>
+  <Assignment key={count++} title={assignment} remove={remove} index={count} addCompleted={addCompleted}/>
   );
 
 

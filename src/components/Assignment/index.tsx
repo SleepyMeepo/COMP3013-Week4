@@ -5,16 +5,21 @@ import {useState} from 'react'
 type Props = {
   title:string,
   remove:(arg0:number)=>void,
-  index:number
+  index:number,
+  addCompleted:(arg0:number)=>void
 }
 
 
-export function Assignment({title,remove,index}:Props) {
+export function Assignment({title,remove,index,addCompleted}:Props) {
 
   const [check, setCheck] = useState(false);
   function displayCheck(){
     setCheck(!check);
-  
+    if(!check){
+      addCompleted(1);
+    }else{
+      addCompleted(-1);
+    }
   }
   return (
     <div className={styles.assignment}>
