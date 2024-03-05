@@ -2,17 +2,26 @@ import { Assignment } from "../Assignment";
 import styles from "./assignments.module.css";
 import {useState} from 'react'
 type Props = {
-  assignments:string[],
-  remove:(arg0:number)=>void
+  assignments:{title:string,completed:number}[],
+  remove:(arg0:number)=>void,
+  updateAssignment:(arg0:number,arg1:number)=>void,
 }
-export function Assignments({assignments,remove}:Props) {
-  const [completed, setCompleted] = useState(0);
+export function Assignments({assignments,remove, updateAssignment}:Props) {
+
+  const [currCompleted,setCurrCompleted] = useState(0);
   let count = 0;
-  function addCompleted(num:number){
-    setCompleted(completed + num );
+  function getCurrentNumOfCompleted() :void {
+    let counter = 0;
+    for(let i=0; i<assignments.length; i++){
+      if(assignments[i].completed==1){
+        counter++;
+
+      }
+    }
+    setCurrCompleted(counter);
   }
-  const assignmentList = assignments.map(assignment=>
-  <Assignment key={count++} title={assignment} remove={remove} index={count} addCompleted={addCompleted}/>
+  const assignmentList = assignments.map((assignment)=>
+  <Assignment key={count++} title={assignment.title} remove={remove} index={count} updateAssignment={updateAssignment} completed={assignment.completed} updateCounter={getCurrentNumOfCompleted}/>
   );
 
 
@@ -26,7 +35,7 @@ export function Assignments({assignments,remove}:Props) {
 
         <div>
           <p className={styles.textPurple}>Completed Assignments</p>
-          <span>{completed} of {assignments.length}</span>
+          <span>{currCompleted} of {assignments.length}</span>
         </div>
       </header>
 

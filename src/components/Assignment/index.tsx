@@ -6,20 +6,23 @@ type Props = {
   title:string,
   remove:(arg0:number)=>void,
   index:number,
-  addCompleted:(arg0:number)=>void
+  completed:number;
+  updateAssignment:(arg0:number, arg1:number)=>void
+  updateCounter:()=>void
 }
 
 
-export function Assignment({title,remove,index,addCompleted}:Props) {
+export function Assignment({title,remove,index,updateAssignment,updateCounter}:Props) {
 
   const [check, setCheck] = useState(false);
   function displayCheck(){
     setCheck(!check);
     if(!check){
-      addCompleted(1);
+      updateAssignment(index,1);
     }else{
-      addCompleted(-1);
+      updateAssignment(index,0);
     }
+    updateCounter();
   }
   return (
     <div className={styles.assignment}>
